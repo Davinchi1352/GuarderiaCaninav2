@@ -1,0 +1,159 @@
+// SCRIPT PARA AUTO-LLENAR EL FORMULARIO COMPLETO
+// Copia y pega en la consola del navegador (F12) cuando tengas el formulario abierto
+
+console.log('🚀 Iniciando auto-llenado del formulario...');
+
+// Datos de prueba completos
+const datosRapidos = {
+    // Información General
+    nombreNegocio: 'Guardería Canina Prueba Rápida',
+    propietarios: 'Juan y María López',
+    email: 'prueba@guarderia.com',
+    telefono: '300-123-4567',
+    fechaInicio: 'Enero 2015',
+    ubicacion: 'Bogotá, Zona Rosa',
+    origenIdea: 'Amor por los animales y necesidad del mercado',
+    descripcionEspacio: 'Casa de 300m2 con amplio jardín y zonas especializadas',
+    
+    // Legal
+    tipoLocal: 'propio',
+    costoArriendo: '0',
+    registroLegal: 'no',
+    razonNoRegistro: 'Procesos en trámite',
+    permisos: 'si',
+    tiposPermisos: 'Permiso sanitario, bomberos',
+    contabilidad: 'no',
+    controlFinanciero: 'Cuaderno de apuntes y facturas',
+    seguros: 'si',
+    detallesSeguros: 'Seguro básico de responsabilidad civil',
+    
+    // Servicios
+    otrosServicios: 'Entrenamiento básico',
+    capacidadDiaria: '20',
+    capacidadHospedaje: '8',
+    promedioDiario: '15',
+    promedioMensual: '450',
+    horarios: 'Lunes a Sábado 7:00 AM - 6:00 PM',
+    numeroPropietarios: '2',
+    numeroEmpleados: '1',
+    
+    // Clientes
+    clientesRegulares: '35',
+    edadPromedio: '25-45 años',
+    nivelSocioeconomico: 'medio-alto',
+    zonaResidencia: 'Norte de Bogotá',
+    otrosFuentesClientes: 'Veterinarias aliadas',
+    conoceCompetencia: 'si',
+    detallesCompetencia: 'PetLove $40000/día, Doggy Center $35000/día',
+    diferenciacion: 'Atención personalizada y espacio amplio',
+    
+    // Precios
+    tarifaGuarderia: '38000',
+    tarifaHospedaje: '55000',
+    tarifaBano: '25000',
+    ultimoAjustePrecios: 'Junio 2024',
+    otrosTarifas: 'Entrenamiento básico: $150000/mes',
+    ingresosMensuales: '17000000',
+    gastoComida: '2500000',
+    gastoServicios: '800000',
+    gastoEmpleados: '2000000',
+    gastoArriendo: '0',
+    otrosGastos: '1200000',
+    capitalTrabajo: 'si',
+    montoCapital: '15000000',
+    
+    // Marketing
+    otrasRedes: 'TikTok',
+    frecuenciaPublicacion: 'varios_por_semana',
+    publicidadPagada: 'si',
+    detallesPublicidad: 'Facebook Ads $200000/mes',
+    paginaWeb: 'no',
+    promociones: 'si',
+    tiposPromociones: 'Descuento 10% nuevos clientes, paquetes mensuales',
+    
+    // Desafíos
+    principalesProblemas: 'Falta de personal en temporadas altas, competencia creciente',
+    frustraciones: 'Dificultad para encontrar empleados confiables',
+    intentosCambios: 'Implementamos sistema de reservas por WhatsApp',
+    metas: 'Expandir a segunda sede, formalizar el negocio legalmente',
+    dispuestoInvertir: 'si',
+    explicaInversion: 'Disponibles 10 horas/semana y $20M para crecimiento',
+    
+    // Infraestructura
+    estadoInstalaciones: 'bueno',
+    equiposHerramientas: 'Jaulas, juguetes, sistemas de sonido, cámaras',
+    faltaInfraestructura: 'Área de baño especializada, aire acondicionado',
+    vehiculo: 'si',
+    
+    // Estacionalidad
+    altaDemanda: 'Diciembre, vacaciones escolares',
+    bajaDemanda: 'Enero, febrero',
+    cambiosMercado: 'Mayor conciencia sobre bienestar animal, más competencia',
+    impactoPandemia: 'Disminución 40% durante cuarentena, recuperación gradual',
+    
+    // Expectativas
+    expectativasConsultoria: 'Estrategias para formalizar el negocio, optimizar procesos, aumentar rentabilidad y planificar expansión',
+    informacionAdicional: 'Interesados en tecnología para mejorar operaciones',
+    horasDisponibles: '10',
+    diasDisponibles: 'Lunes a Viernes'
+};
+
+// Función para llenar campos de texto
+function llenarCampo(name, value) {
+    const campo = document.querySelector(`input[name="${name}"], textarea[name="${name}"], select[name="${name}"]`);
+    if (campo) {
+        campo.value = value;
+        console.log(`✅ ${name}: ${value}`);
+    } else {
+        console.log(`⚠️ Campo no encontrado: ${name}`);
+    }
+}
+
+// Función para marcar checkboxes
+function marcarCheckboxes(name, values) {
+    const checkboxes = document.querySelectorAll(`input[name="${name}"]`);
+    values.forEach(value => {
+        const checkbox = document.querySelector(`input[name="${name}"][value="${value}"]`);
+        if (checkbox) {
+            checkbox.checked = true;
+            console.log(`✅ Checkbox marcado: ${name} = ${value}`);
+        }
+    });
+}
+
+// Función para marcar radio buttons
+function marcarRadio(name, value) {
+    const radio = document.querySelector(`input[name="${name}"][value="${value}"]`);
+    if (radio) {
+        radio.checked = true;
+        console.log(`✅ Radio marcado: ${name} = ${value}`);
+    }
+}
+
+// Auto-llenar todos los campos
+console.log('📝 Llenando campos de texto...');
+Object.keys(datosRapidos).forEach(key => {
+    llenarCampo(key, datosRapidos[key]);
+});
+
+// Marcar checkboxes de servicios
+console.log('☑️ Marcando servicios...');
+marcarCheckboxes('servicios', ['guarderia_diurna', 'hospedaje_nocturno', 'bano_arreglo']);
+
+// Marcar checkboxes de fuentes de clientes
+console.log('☑️ Marcando fuentes de clientes...');
+marcarCheckboxes('fuentesClientes', ['recomendaciones', 'redes_sociales']);
+
+// Marcar checkboxes de redes sociales
+console.log('☑️ Marcando redes sociales...');
+marcarCheckboxes('redesSocialesUso', ['facebook', 'instagram', 'whatsapp']);
+
+// Marcar algunos radio buttons
+console.log('🔘 Marcando opciones...');
+marcarRadio('nivelSocioeconomico', 'medio-alto');
+marcarRadio('frecuenciaPublicacion', 'varios_por_semana');
+marcarRadio('estadoInstalaciones', 'bueno');
+
+console.log('🎉 ¡Auto-llenado completado!');
+console.log('👆 Revisa el formulario y haz click en "Enviar Evaluación"');
+console.log('⏱️ Tiempo ahorrado: ~15 minutos');
