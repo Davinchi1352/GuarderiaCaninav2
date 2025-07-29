@@ -944,23 +944,44 @@
     </div>
 
     <script>
-        // IMPORTANTE: Reemplaza con tu URL NUEVA de Google Apps Script
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyUuDQBPeBNfm6XMOHPadJ4w1jmJivwnXA8Ha_ZIjN64tZR8jobLBqZCCu-FTThjWfH/exec';
+        // IMPORTANTE: Actualiza con tu URL real
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyZFNj5WW2fW9BrhrVSWMr6ztPAR4uTv-6nvhOkvHRajAiK3MlkNCN7vEfh3RL67lrF/exec';
 
-        // Función para verificar si la URL funciona
+        // Función mejorada para verificar conexión
         async function verificarConexion() {
             try {
-                console.log('🔍 Verificando conexión con:', GOOGLE_SCRIPT_URL);
+                console.log('🔍 Verificando conexión GET con:', GOOGLE_SCRIPT_URL);
                 const response = await fetch(GOOGLE_SCRIPT_URL, {
                     method: 'GET'
                 });
 
                 if (response.ok) {
                     const data = await response.json();
-                    console.log('✅ Conexión exitosa:', data);
-                    return true;
+                    console.log('✅ Conexión GET exitosa:', data);
+
+                    // Ahora probar POST con FormData (evita CORS preflight)
+                    console.log('🔍 Verificando conexión POST con FormData...');
+                    const testFormData = new FormData();
+                    testFormData.append('test', 'conexion');
+                    testFormData.append('timestamp', new Date().toISOString());
+
+                    const postResponse = await fetch(GOOGLE_SCRIPT_URL, {
+                        method: 'POST',
+                        body: testFormData  // FormData no necesita headers de Content-Type
+                    });
+
+                    console.log('📤 Respuesta POST status:', postResponse.status);
+
+                    if (postResponse.ok) {
+                        const postData = await postResponse.json();
+                        console.log('✅ Conexión POST exitosa:', postData);
+                        return true;
+                    } else {
+                        console.error('❌ Error POST:', postResponse.status, postResponse.statusText);
+                        return false;
+                    }
                 } else {
-                    console.error('❌ Error de conexión:', response.status, response.statusText);
+                    console.error('❌ Error GET:', response.status, response.statusText);
                     return false;
                 }
             } catch (error) {
@@ -1041,13 +1062,18 @@
                 console.log('📤 Enviando datos:', data);
                 console.log('🎯 URL destino:', GOOGLE_SCRIPT_URL);
 
-                // Enviar a Google Sheets
+                // SOLUCIÓN CORS: Usar FormData en lugar de JSON para evitar preflight
+                const formDataToSend = new FormData();
+
+                // Convertir el objeto data a FormData
+                for (const [key, value] of Object.entries(data)) {
+                    formDataToSend.append(key, value || '');
+                }
+
+                // Enviar a Google Sheets (usando FormData para evitar CORS preflight)
                 const response = await fetch(GOOGLE_SCRIPT_URL, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(data)
+                    body: formDataToSend  // FormData no requiere Content-Type header
                 });
 
                 console.log('📥 Respuesta recibida:', response.status, response.statusText);

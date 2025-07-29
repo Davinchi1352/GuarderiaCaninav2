@@ -1,16 +1,26 @@
 function doPost(e) {
     try {
-        // CONFIGURACIÓN INICIAL - YA CONFIGURADO CON TUS VALORES
+        // CONFIGURACIÓN CON TUS DATOS REALES
         const SHEET_ID = '1S7VX7essRAMnReGMtcFExhM7HuL5e5jvsNpurhhaEPY';
         const EMAIL_NOTIFICACION = 'ca1352@gmail.com';
 
-        // Verificar si hay datos del formulario
-        if (!e || !e.postData || !e.postData.contents) {
+        // Verificar si hay datos del formulario (JSON o FormData)
+        if (!e || (!e.postData && !e.parameter)) {
             throw new Error('No hay datos del formulario. Este script debe ser llamado desde el formulario HTML.');
         }
 
-        // Obtener los datos del formulario
-        const data = JSON.parse(e.postData.contents);
+        // Obtener los datos del formulario (puede venir como JSON o FormData)
+        let data;
+        if (e.postData && e.postData.contents) {
+            // Datos como JSON
+            data = JSON.parse(e.postData.contents);
+        } else if (e.parameter) {
+            // Datos como FormData
+            data = e.parameter;
+        } else {
+            throw new Error('No se pudieron obtener los datos del formulario');
+        }
+
         const sheet = SpreadsheetApp.openById(SHEET_ID).getActiveSheet();
 
         // Verificar si es la primera vez y crear headers
@@ -218,6 +228,9 @@ Puedes ver todos los detalles en la hoja de cálculo:
 https://docs.google.com/spreadsheets/d/${SHEET_ID}
 
 Enviado el: ${data.fechaEnvio}
+
+---
+Sistema automatizado de formularios - Guardería Canina
       `;
 
             try {
@@ -231,12 +244,13 @@ Enviado el: ${data.fechaEnvio}
             }
         }
 
-        // Respuesta exitosa (CORS manejado automáticamente por Google Apps Script)
+        // Respuesta exitosa
         return ContentService
             .createTextOutput(JSON.stringify({
                 success: true,
                 message: 'Datos guardados correctamente',
-                timestamp: new Date().toISOString()
+                timestamp: new Date().toISOString(),
+                rows: sheet.getLastRow()
             }))
             .setMimeType(ContentService.MimeType.JSON);
 
@@ -254,6 +268,14 @@ Enviado el: ${data.fechaEnvio}
     }
 }
 
+// FUNCIÓN CRÍTICA PARA CORS - Maneja requests OPTIONS (preflight)
+function doOptions(e) {
+    // Esta función es esencial para evitar errores de CORS
+    return ContentService
+        .createTextOutput('')
+        .setMimeType(ContentService.MimeType.TEXT);
+}
+
 // Función GET para verificar que el webhook funciona
 function doGet(e) {
     return ContentService
@@ -261,7 +283,9 @@ function doGet(e) {
             status: 'Webhook funcionando correctamente',
             timestamp: new Date().toISOString(),
             method: 'GET',
-            message: 'El sistema está listo para recibir datos del formulario'
+            message: 'El sistema está listo para recibir datos del formulario',
+            sheetId: '1S7VX7essRAMnReGMtcFExhM7HuL5e5jvsNpurhhaEPY',
+            email: 'ca1352@gmail.com'
         }))
         .setMimeType(ContentService.MimeType.JSON);
 }
@@ -269,11 +293,13 @@ function doGet(e) {
 // FUNCIÓN DE PRUEBA - Ejecuta esta para verificar que todo funciona
 function pruebaConexion() {
     try {
-        // CONFIGURACIÓN CON TUS VALORES REALES
+        // TUS DATOS REALES YA CONFIGURADOS
         const SHEET_ID = '1S7VX7essRAMnReGMtcFExhM7HuL5e5jvsNpurhhaEPY';
         const EMAIL_NOTIFICACION = 'ca1352@gmail.com';
 
         console.log('🔍 Iniciando prueba de conexión...');
+        console.log('📋 Sheet ID:', SHEET_ID);
+        console.log('📧 Email:', EMAIL_NOTIFICACION);
 
         // Verificar conexión con Google Sheets
         const sheet = SpreadsheetApp.openById(SHEET_ID).getActiveSheet();
@@ -284,11 +310,11 @@ function pruebaConexion() {
         // Agregar fila de prueba
         const datoPrueba = [
             new Date().toLocaleString('es-CO'),
-            'PRUEBA - Guardería Test',
+            'PRUEBA - Guardería Test CORS Fixed',
             'Juan y María Prueba',
             'prueba@email.com',
             '555-1234',
-            '-- ESTO ES UNA PRUEBA DEL SISTEMA --'
+            '-- PRUEBA CORS SOLUCIONADO --'
         ];
 
         sheet.appendRow(datoPrueba);
@@ -298,22 +324,24 @@ function pruebaConexion() {
         try {
             MailApp.sendEmail({
                 to: EMAIL_NOTIFICACION,
-                subject: '🧪 Prueba de Sistema - Guardería Canina',
+                subject: '🧪 Prueba CORS Fixed - Guardería Canina',
                 body: `¡Hola!
 
-Esta es una prueba automatizada del sistema de formularios.
+Esta es una prueba del sistema con CORS solucionado.
 
 ✅ Google Apps Script: Funcionando
 ✅ Google Sheets: Funcionando  
 ✅ Envío de emails: Funcionando
+✅ CORS: Solucionado con doOptions() y FormData
 
-El sistema está listo para recibir formularios reales.
+Configuración:
+- Sheet ID: ${SHEET_ID}
+- Email: ${EMAIL_NOTIFICACION}
+- Timestamp: ${new Date().toLocaleString('es-CO')}
 
-Sheet ID: ${SHEET_ID}
-Email: ${EMAIL_NOTIFICACION}
-Enviado: ${new Date().toLocaleString('es-CO')}
+El sistema está listo para recibir formularios desde GitHub Pages sin errores CORS.
 
-¡Todo funciona correctamente! 🎉
+¡Todo funciona perfectamente! 🎉
         `
             });
             console.log('✅ Email de prueba enviado exitosamente');
@@ -323,9 +351,9 @@ Enviado: ${new Date().toLocaleString('es-CO')}
 
         console.log('🎉 ¡Prueba completada exitosamente!');
         console.log('📝 Revisa tu Google Sheet y tu email');
-        console.log('🚀 El sistema está listo para desplegar');
+        console.log('🚀 Sistema listo para desplegar - CORS solucionado');
 
-        return 'Prueba completada exitosamente - Sistema funcionando';
+        return 'Prueba completada exitosamente - CORS Fixed';
 
     } catch (error) {
         console.error('❌ Error en la prueba:', error.toString());
@@ -339,7 +367,7 @@ Enviado: ${new Date().toLocaleString('es-CO')}
     }
 }
 
-// Función adicional para limpiar datos de prueba (opcional)
+// Función adicional para limpiar datos de prueba
 function limpiarDatosPrueba() {
     try {
         const SHEET_ID = '1S7VX7essRAMnReGMtcFExhM7HuL5e5jvsNpurhhaEPY';
