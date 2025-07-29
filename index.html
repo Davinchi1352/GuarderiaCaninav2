@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluación de Guardería Canina - Consultoría Empresarial</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .form-container {
+            padding: 40px 30px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            border: 1px solid #e1e8ed;
+            border-radius: 15px;
+            padding: 30px;
+            background: #fafbfc;
+        }
+
+        .section-title {
+            font-size: 1.4rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+            display: flex;
+            align-items: center;
+        }
+
+        .section-title::before {
+            content: "🐕";
+            margin-right: 10px;
+            font-size: 1.6rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #2c3e50;
+            font-size: 0.95rem;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="number"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e1e8ed;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="tel"]:focus,
+        input[type="number"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+            transform: translateY(-1px);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background: white;
+            border: 2px solid #e1e8ed;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .checkbox-item:hover {
+            border-color: #3498db;
+            background: #f8f9fa;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .radio-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 15px;
+            background: white;
+            border: 2px solid #e1e8ed;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .radio-item:hover {
+            border-color: #3498db;
+            background: #f8f9fa;
+        }
+
+        .radio-item input[type="radio"] {
+            margin-right: 8px;
+        }
+
+        .radio-item input[type="radio"]:checked+label {
+            color: #3498db;
+            font-weight: 600;
+        }
+
+        .submit-container {
+            text-align: center;
+            margin-top: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 15px;
+        }
+
+        .submit-btn {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(52, 152, 219, 0.3);
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(52, 152, 219, 0.4);
+        }
+
+        .submit-btn:disabled {
+            background: #bdc3c7;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .loading {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .success-message {
+            display: none;
+            background: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 1px solid #c3e6cb;
+        }
+
+        .error-message {
+            display: none;
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border: 1px solid #f5c6cb;
+        }
+
+        .required {
+            color: #e74c3c;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Evaluación de Guardería Canina</h1>
+            <p>Por favor, complete este formulario con información detallada sobre su negocio. La información será
+                tratada de manera confidencial y nos ayudará a brindarle la mejor asesoría personalizada.</p>
+        </div>
+
+        <div class="form-container">
+            <form id="evaluacionForm">
+                <!-- Información General -->
+                <div class="section">
+                    <h2 class="section-title">Información General del Negocio</h2>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="nombreNegocio">Nombre del Negocio <span class="required">*</span></label>
+                            <input type="text" id="nombreNegocio" name="nombreNegocio" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="propietarios">Nombres de los Propietarios <span
+                                    class="required">*</span></label>
+                            <input type="text" id="propietarios" name="propietarios" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email de Contacto <span class="required">*</span></label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="telefono">Teléfono <span class="required">*</span></label>
+                            <input type="tel" id="telefono" name="telefono" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="fechaInicio">¿Cuándo iniciaron la guardería?</label>
+                            <input type="text" id="fechaInicio" name="fechaInicio" placeholder="Ej: Enero 2010">
+                        </div>
+                        <div class="form-group">
+                            <label for="ubicacion">Ubicación (Ciudad/Barrio)</label>
+                            <input type="text" id="ubicacion" name="ubicacion">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="origenIdea">¿Cómo surgió la idea del negocio?</label>
+                        <textarea id="origenIdea" name="origenIdea" placeholder="Cuéntanos la historia..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="descripcionEspacio">Describe el espacio donde operan</label>
+                        <textarea id="descripcionEspacio" name="descripcionEspacio"
+                            placeholder="Tamaño, distribución, características..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>¿El local es propio o arrendado?</label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="propio" name="tipoLocal" value="propio">
+                                <label for="propio">Propio</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="arrendado" name="tipoLocal" value="arrendado">
+                                <label for="arrendado">Arrendado</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="costoArriendo">Costo mensual de arriendo (si aplica)</label>
+                        <input type="number" id="costoArriendo" name="costoArriendo" placeholder="0">
+                    </div>
+                </div>
+
+                <!-- Situación Legal -->
+                <div class="section">
+                    <h2 class="section-title">Situación Legal y Administrativa</h2>
+
+                    <div class="form-group">
+                        <label>¿Tienen el negocio registrado legalmente?</label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="registradoSi" name="registroLegal" value="si">
+                                <label for="registradoSi">Sí</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="registradoNo" name="registroLegal" value="no">
+                                <label for="registradoNo">No</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="razonNoRegistro">Si no está registrado, ¿por qué razón?</label>
+                        <textarea id="razonNoRegistro" name="razonNoRegistro"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>¿Tienen los permisos necesarios para operar?</label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="permisosSi" name="permisos" value="si">
+                                <label for="permisosSi">Sí</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="permisosNo" name="permisos" value="no">
+                                <label for="permisosNo">No</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="permisosNoSeguro" name="permisos" value="no_seguro">
+                                <label for="permisosNoSeguro">No estoy seguro</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="tiposPermisos">¿Qué permisos tienen?</label>
+                        <textarea id="tiposPermisos" name="tiposPermisos"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>¿Manejan contabilidad formal?</label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="contabilidadSi" name="contabilidad" value="si">
+                                <label for="contabilidadSi">Sí</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="contabilidadNo" name="contabilidad" value="no">
+                                <label for="contabilidadNo">No</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="controlFinanciero">¿Cómo llevan el control de gastos e ingresos?</label>
+                        <textarea id="controlFinanciero" name="controlFinanciero"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>¿Tienen seguros para el negocio?</label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="segurosSi" name="seguros" value="si">
+                                <label for="segurosSi">Sí</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="segurosNo" name="seguros" value="no">
+                                <label for="segurosNo">No</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="detallesSeguros">Detalles de seguros</label>
+                        <textarea id="detallesSeguros" name="detallesSeguros"></textarea>
+                    </div>
+                </div>
+
+                <!-- Servicios y Operaciones -->
+                <div class="section">
+                    <h2 class="section-title">Servicios y Operaciones</h2>
+
+                    <div class="form-group">
+                        <label>¿Qué servicios ofrecen? (Marque todos los que apliquen)</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="guarderiaDiurna" name="servicios" value="guarderia_diurna">
+                                <label for="guarderiaDiurna">Guardería diurna</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="hospedajeNocturno" name="servicios"
+                                    value="hospedaje_nocturno">
+                                <label for="hospedajeNocturno">Hospedaje nocturno</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="banoArreglo" name="servicios" value="bano_arreglo">
+                                <label for="banoArreglo">Baño y arreglo</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="entrenamiento" name="servicios" value="entrenamiento">
+                                <label for="entrenamiento">Entrenamiento</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="transporte" name="servicios" value="transporte">
+                                <label for="transporte">Transporte</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="otrosServicios">Otros servicios</label>
+                        <input type="text" id="otrosServicios" name="otrosServicios">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="capacidadDiaria">Capacidad máxima diaria (perros)</label>
+                            <input type="number" id="capacidadDiaria" name="capacidadDiaria">
+                        </div>
+                        <div class="form-group">
+                            <label for="capacidadHospedaje">Capacidad hospedaje (perros)</label>
+                            <input type="number" id="capacidadHospedaje" name="capacidadHospedaje">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="promedioDiario">Perros atendidos diariamente (promedio)</label>
+                            <input type="number" id="promedioDiario" name="promedioDiario">
+                        </div>
+                        <div class="form-group">
+                            <label for="promedioMensual">Perros atendidos mensualmente (promedio)</label>
+                            <input type="number" id="promedioMensual" name="promedioMensual">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="horarios">Horarios de operación</label>
+                        <input type="text" id="horarios" name="horarios"
+                            placeholder="Ej: Lunes a Viernes 7:00 AM - 6:00 PM">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="numeroPropietarios">Número de propietarios trabajando</label>
+                            <input type="number" id="numeroPropietarios" name="numeroPropietarios">
+                        </div>
+                        <div class="form-group">
+                            <label for="numeroEmpleados">Número de empleados</label>
+                            <input type="number" id="numeroEmpleados" name="numeroEmpleados">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Clientes y Mercado -->
+                <div class="section">
+                    <h2 class="section-title">Clientes y Mercado</h2>
+
+                    <div class="form-group">
+                        <label for="clientesRegulares">¿Cuántos clientes regulares tienen aproximadamente?</label>
+                        <input type="number" id="clientesRegulares" name="clientesRegulares">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="edadPromedio">Edad promedio de clientes</label>
+                            <input type="text" id="edadPromedio" name="edadPromedio" placeholder="Ej: 25-45 años">
+                        </div>
+                        <div class="form-group">
+                            <label for="nivelSocioeconomico">Nivel socioeconómico típico</label>
+                            <select id="nivelSocioeconomico" name="nivelSocioeconomico">
+                                <option value="">Seleccione...</option>
+                                <option value="alto">Alto</option>
+                                <option value="medio-alto">Medio-Alto</option>
+                                <option value="medio">Medio</option>
+                                <option value="medio-bajo">Medio-Bajo</option>
+                                <option value="bajo">Bajo</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="zonaResidencia">Zona de residencia típica de clientes</label>
+                        <input type="text" id="zonaResidencia" name="zonaResidencia">
+                    </div>
+
+                    <div class="form-group">
+                        <label>¿Cómo llegan los clientes hasta ustedes? (Marque todos los que apliquen)</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="recomendaciones" name="fuentesClientes"
+                                    value="recomendaciones">
+                                <label for="recomendaciones">Recomendaciones</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="redesSociales" name="fuentesClientes" value="redes_sociales">
+                                <label for="redesSociales">Redes sociales</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="publicidad" name="fuentesClientes" value="publicidad">
+                                <label for="publicidad">Publicidad</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="ubicacionLocal" name="fuentesClientes" value="ubicacion">
+                                <label for="ubicacionLocal">Ubicación</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="otrosFuentesClientes">Otras fuentes de clientes</label>
+                        <input type="text" id="otrosFuentesClientes" name="otrosFuentesClientes">
+                    </div>
+
+                    <div class="form-group">
+                        <label>¿Conocen a su competencia directa?</label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="competenciaSi" name="conoceCompetencia" value="si">
+                                <label for="competenciaSi">Sí</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="competenciaNo" name="conoceCompetencia" value="no">
+                                <label for="competenciaNo">No</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="detallesCompetencia">¿Cuáles son y qué precios manejan?</label>
+                        <textarea id="detallesCompetencia" name="detallesCompetencia"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="diferenciacion">¿Qué los diferencia de la competencia?</label>
+                        <textarea id="diferenciacion" name="diferenciacion"></textarea>
+                    </div>
+                </div>
+
+                <!-- Precios y Finanzas -->
+                <div class="section">
+                    <h2 class="section-title">Precios y Finanzas</h2>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="tarifaGuarderia">Guardería diurna (por día)</label>
+                            <input type="number" id="tarifaGuarderia" name="tarifaGuarderia" placeholder="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="tarifaHospedaje">Hospedaje nocturno (por noche)</label>
+                            <input type="number" id="tarifaHospedaje" name="tarifaHospedaje" placeholder="0">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="tarifaBano">Baño y arreglo</label>
+                            <input type="number" id="tarifaBano" name="tarifaBano" placeholder="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="ultimoAjustePrecios">¿Cuándo fue el último ajuste de precios?</label>
+                            <input type="text" id="ultimoAjustePrecios" name="ultimoAjustePrecios">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="otrosTarifas">Otros servicios y tarifas</label>
+                        <textarea id="otrosTarifas" name="otrosTarifas"
+                            placeholder="Describa otros servicios y sus precios"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ingresosMensuales">Ingresos mensuales aproximados</label>
+                        <input type="number" id="ingresosMensuales" name="ingresosMensuales" placeholder="0">
+                    </div>
+
+                    <h3 style="margin: 20px 0 10px 0; color: #2c3e50;">Gastos Mensuales Principales:</h3>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="gastoComida">Comida/Suministros</label>
+                            <input type="number" id="gastoComida" name="gastoComida" placeholder="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="gastoServicios">Servicios públicos</label>
+                            <input type="number" id="gastoServicios" name="gastoServicios" placeholder="0">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="gastoEmpleados">Empleados</label>
+                            <input type="number" id="gastoEmpleados" name="gastoEmpleados" placeholder="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="gastoArriendo">Arriendo</label>
+                            <input type="number" id="gastoArriendo" name="gastoArriendo" placeholder="0">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="otrosGastos">Otros gastos</label>
+                        <input type="number" id="otrosGastos" name="otrosGastos" placeholder="0">
+                    </div>
+
+                    <div class="form-group">
+                        <label>¿Tienen capital de trabajo o ahorros para invertir?</label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="capitalSi" name="capitalTrabajo" value="si">
+                                <label for="capitalSi">Sí</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="capitalNo" name="capitalTrabajo" value="no">
+                                <label for="capitalNo">No</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="montoCapital">Monto aproximado disponible para invertir</label>
+                        <input type="number" id="montoCapital" name="montoCapital" placeholder="0">
+                    </div>
+                </div>
+
+                <!-- Marketing y Comunicación -->
+                <div class="section">
+                    <h2 class="section-title">Marketing y Comunicación</h2>
+
+                    <div class="form-group">
+                        <label>¿Tienen presencia en redes sociales? (Marque todas las que usen)</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="facebook" name="redesSocialesUso" value="facebook">
+                                <label for="facebook">Facebook</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="instagram" name="redesSocialesUso" value="instagram">
+                                <label for="instagram">Instagram</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="whatsapp" name="redesSocialesUso" value="whatsapp">
+                                <label for="whatsapp">WhatsApp Business</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="tiktok" name="redesSocialesUso" value="tiktok">
+                                <label for="tiktok">TikTok</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="otrasRedes">Otras redes sociales</label>
+                        <input type="text" id="otrasRedes" name="otrasRedes">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="frecuenciaPublicacion">¿Con qué frecuencia publican contenido?</label>
+                        <select id="frecuenciaPublicacion" name="frecuenciaPublicacion">
+                            <option value="">Seleccione...</option>
+                            <option value="diario">Diario</option>
+                            <option value="varios_por_semana">Varias veces por semana</option>
+                            <option value="semanal">Semanal</option>
+                            <option value="mensual">Mensual</option>
+                            <option value="esporadico">Esporádico</option>
+                            <option value="nunca">Nunca</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>¿Hacen algún tipo de publicidad pagada?</label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="publicidadSi" name="publicidadPagada" value="si">
+                                <label for="publicidadSi">Sí</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="publicidadNo" name="publicidadPagada" value="no">
+                                <label for="publicidadNo">No</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="detallesPublicidad">¿Cuál y cuánto invierten en publicidad?</label>
+                        <textarea id="detallesPublicidad" name="detallesPublicidad"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>¿Tienen página web o sistema de reservas online?</label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="webSi" name="paginaWeb" value="si">
+                                <label for="webSi">Sí</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="webNo" name="paginaWeb" value="no">
+                                <label for="webNo">No</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>¿Ofrecen promociones o descuentos?</label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="promocionesSi" name="promociones" value="si">
+                                <label for="promocionesSi">Sí</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="promocionesNo" name="promociones" value="no">
+                                <label for="promocionesNo">No</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="tiposPromociones">¿Qué tipos de promociones?</label>
+                        <textarea id="tiposPromociones" name="tiposPromociones"></textarea>
+                    </div>
+                </div>
+
+                <!-- Desafíos y Oportunidades -->
+                <div class="section">
+                    <h2 class="section-title">Desafíos y Oportunidades</h2>
+
+                    <div class="form-group">
+                        <label for="principalesProblemas">¿Cuáles consideran que son sus principales problemas
+                            actualmente?</label>
+                        <textarea id="principalesProblemas" name="principalesProblemas"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="frustraciones">¿Qué los frustra más del negocio?</label>
+                        <textarea id="frustraciones" name="frustraciones"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="intentosCambios">¿Han intentado hacer cambios para crecer? ¿Cuáles?</label>
+                        <textarea id="intentosCambios" name="intentosCambios"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="metas">¿Cuáles son sus metas para los próximos 2 años?</label>
+                        <textarea id="metas" name="metas"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>¿Estarían dispuestos a invertir tiempo y dinero para hacer crecer el negocio?</label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="invertirSi" name="dispuestoInvertir" value="si">
+                                <label for="invertirSi">Sí</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="invertirNo" name="dispuestoInvertir" value="no">
+                                <label for="invertirNo">No</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="invertirDepende" name="dispuestoInvertir" value="depende">
+                                <label for="invertirDepende">Depende</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="explicaInversion">Explique su disponibilidad para invertir</label>
+                        <textarea id="explicaInversion" name="explicaInversion"></textarea>
+                    </div>
+                </div>
+
+                <!-- Infraestructura -->
+                <div class="section">
+                    <h2 class="section-title">Infraestructura y Recursos</h2>
+
+                    <div class="form-group">
+                        <label>¿Cómo describirían el estado de sus instalaciones?</label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="excelente" name="estadoInstalaciones" value="excelente">
+                                <label for="excelente">Excelente</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="bueno" name="estadoInstalaciones" value="bueno">
+                                <label for="bueno">Bueno</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="regular" name="estadoInstalaciones" value="regular">
+                                <label for="regular">Regular</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="necesitaMejoras" name="estadoInstalaciones"
+                                    value="necesita_mejoras">
+                                <label for="necesitaMejoras">Necesita mejoras</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="equiposHerramientas">¿Qué equipos o herramientas tienen?</label>
+                        <textarea id="equiposHerramientas" name="equiposHerramientas"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="faltaInfraestructura">¿Qué les falta en términos de infraestructura?</label>
+                        <textarea id="faltaInfraestructura" name="faltaInfraestructura"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>¿Tienen vehículo para el negocio?</label>
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="vehiculoSi" name="vehiculo" value="si">
+                                <label for="vehiculoSi">Sí</label>
+                            </div>
+                            <div class="radio-item">
+                                <input type="radio" id="vehiculoNo" name="vehiculo" value="no">
+                                <label for="vehiculoNo">No</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Estacionalidad -->
+                <div class="section">
+                    <h2 class="section-title">Estacionalidad y Tendencias</h2>
+
+                    <div class="form-group">
+                        <label for="altaDemanda">¿En qué épocas del año tienen mayor demanda?</label>
+                        <input type="text" id="altaDemanda" name="altaDemanda"
+                            placeholder="Ej: Diciembre, vacaciones, etc.">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bajaDemanda">¿En qué épocas tienen menor demanda?</label>
+                        <input type="text" id="bajaDemanda" name="bajaDemanda">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cambiosMercado">¿Qué cambios han notado en el mercado en los últimos años?</label>
+                        <textarea id="cambiosMercado" name="cambiosMercado"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="impactoPandemia">¿Cómo afectó la pandemia al negocio?</label>
+                        <textarea id="impactoPandemia" name="impactoPandemia"></textarea>
+                    </div>
+                </div>
+
+                <!-- Expectativas -->
+                <div class="section">
+                    <h2 class="section-title">Expectativas de la Consultoría</h2>
+
+                    <div class="form-group">
+                        <label for="expectativasConsultoria">¿Qué esperan obtener de esta consultoría? <span
+                                class="required">*</span></label>
+                        <textarea id="expectativasConsultoria" name="expectativasConsultoria" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="informacionAdicional">¿Hay algo más que consideren importante mencionar?</label>
+                        <textarea id="informacionAdicional" name="informacionAdicional"></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="horasDisponibles">Horas por semana disponibles para implementar cambios</label>
+                            <input type="number" id="horasDisponibles" name="horasDisponibles" placeholder="0">
+                        </div>
+                        <div class="form-group">
+                            <label for="diasDisponibles">Días disponibles para la consultoría</label>
+                            <input type="text" id="diasDisponibles" name="diasDisponibles"
+                                placeholder="Ej: Lunes a Viernes">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="submit-container">
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        Enviar Evaluación
+                    </button>
+
+                    <div class="loading" id="loading">
+                        <p>Enviando información...</p>
+                    </div>
+
+                    <div class="success-message" id="successMessage">
+                        <strong>¡Formulario enviado exitosamente!</strong><br>
+                        Gracias por completar la evaluación. Nos pondremos en contacto con ustedes pronto para programar
+                        la consultoría.
+                    </div>
+
+                    <div class="error-message" id="errorMessage">
+                        <strong>Error al enviar el formulario.</strong><br>
+                        Por favor, verifique su conexión a internet e intente nuevamente.
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // IMPORTANTE: Debes reemplazar esta URL con la URL de tu Google Apps Script
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzNFBdvvyYMcMLq3jZW65JJBD6YwXwWevRQUVw7N6bkENtoWJTyOdjWKvWMLrWXom6q/exec';
+
+        document.getElementById('evaluacionForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const submitBtn = document.getElementById('submitBtn');
+            const loading = document.getElementById('loading');
+            const successMessage = document.getElementById('successMessage');
+            const errorMessage = document.getElementById('errorMessage');
+
+            // Ocultar mensajes previos
+            successMessage.style.display = 'none';
+            errorMessage.style.display = 'none';
+
+            // Mostrar loading
+            submitBtn.disabled = true;
+            loading.style.display = 'block';
+
+            try {
+                // Recopilar todos los datos del formulario
+                const formData = new FormData(this);
+                const data = {};
+
+                // Procesar campos normales
+                for (let [key, value] of formData.entries()) {
+                    if (data[key]) {
+                        // Si ya existe, convertir en array
+                        if (Array.isArray(data[key])) {
+                            data[key].push(value);
+                        } else {
+                            data[key] = [data[key], value];
+                        }
+                    } else {
+                        data[key] = value;
+                    }
+                }
+
+                // Procesar checkboxes especiales
+                const servicios = [];
+                const fuentesClientes = [];
+                const redesSocialesUso = [];
+
+                document.querySelectorAll('input[name="servicios"]:checked').forEach(cb => {
+                    servicios.push(cb.value);
+                });
+
+                document.querySelectorAll('input[name="fuentesClientes"]:checked').forEach(cb => {
+                    fuentesClientes.push(cb.value);
+                });
+
+                document.querySelectorAll('input[name="redesSocialesUso"]:checked').forEach(cb => {
+                    redesSocialesUso.push(cb.value);
+                });
+
+                data.servicios = servicios.join(', ');
+                data.fuentesClientes = fuentesClientes.join(', ');
+                data.redesSocialesUso = redesSocialesUso.join(', ');
+
+                // Agregar timestamp
+                data.fechaEnvio = new Date().toLocaleString('es-CO');
+
+                // Enviar a Google Sheets
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (response.ok) {
+                    successMessage.style.display = 'block';
+                    this.reset(); // Limpiar formulario
+                    // Scroll al mensaje de éxito
+                    successMessage.scrollIntoView({ behavior: 'smooth' });
+                } else {
+                    throw new Error('Error en la respuesta del servidor');
+                }
+
+            } catch (error) {
+                console.error('Error:', error);
+                errorMessage.style.display = 'block';
+                errorMessage.scrollIntoView({ behavior: 'smooth' });
+            } finally {
+                // Ocultar loading y habilitar botón
+                loading.style.display = 'none';
+                submitBtn.disabled = false;
+            }
+        });
+
+        // Validación en tiempo real
+        document.querySelectorAll('input[required], textarea[required]').forEach(field => {
+            field.addEventListener('blur', function () {
+                if (!this.value.trim()) {
+                    this.style.borderColor = '#e74c3c';
+                } else {
+                    this.style.borderColor = '#27ae60';
+                }
+            });
+        });
+
+        // Mejorar UX con animaciones suaves
+        document.querySelectorAll('.section').forEach((section, index) => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(20px)';
+
+            setTimeout(() => {
+                section.style.transition = 'all 0.6s ease';
+                section.style.opacity = '1';
+                section.style.transform = 'translateY(0)';
+            }, index * 100);
+        });
+    </script>
+</body>
+
+</html>

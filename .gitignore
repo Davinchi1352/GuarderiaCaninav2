@@ -1,0 +1,202 @@
+# Archivo de configuración con datos sensibles
+.env
+config.js
+secrets.js
+
+# Variables de entorno específicas
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Archivos de respaldo
+*.backup
+*.bak
+*.tmp
+*.temp
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Archivos del sistema operativo
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+
+# Editores de código
+# VSCode
+.vscode/
+.vscode/settings.json
+.vscode/tasks.json
+.vscode/launch.json
+.vscode/extensions.json
+*.code-workspace
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Atom
+.atom/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Eclipse
+.eclipse
+.metadata
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.settings/
+.loadpath
+.recommenders
+
+# Vim
+[._]*.s[a-v][a-z]
+[._]*.sw[a-p]
+[._]s[a-rt-v][a-z]
+[._]ss[a-gi-z]
+[._]sw[a-p]
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# Archivos temporales de Microsoft Office
+~$*.doc*
+~$*.xls*
+~$*.ppt*
+
+# Node.js (si decides usar Node en el futuro)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Archivos de coverage
+coverage/
+*.lcov
+
+# Archivos de distribución
+dist/
+build/
+public/
+
+# Archivos de cache
+.cache/
+.parcel-cache/
+
+# Archivos de testing
+.nyc_output/
+
+# Archivos de documentación generada automáticamente
+docs/api/
+
+# Archivos personales y notas
+notas.txt
+todo.txt
+personal/
+private/
+
+# Archivos de configuración local
+config.local.*
+settings.local.*
+
+# Archivos ZIP y comprimidos
+*.zip
+*.rar
+*.7z
+*.tar.gz
+
+# Capturas de pantalla y archivos multimedia de desarrollo
+screenshots/
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+# Excepto iconos necesarios
+!icons/
+!assets/
+
+# Archivos de base de datos locales
+*.db
+*.sqlite
+*.sqlite3
+
+# Archivos de certificados y llaves
+*.pem
+*.key
+*.crt
+*.cert
+
+# Archivos de Python (si usas scripts auxiliares)
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Archivos de Ruby (si usas scripts auxiliares)
+*.gem
+*.rbc
+/.config
+/coverage/
+/InstalledFiles
+/pkg/
+/spec/reports/
+/spec/examples.txt
+/test/tmp/
+/test/version_tmp/
+/tmp/
