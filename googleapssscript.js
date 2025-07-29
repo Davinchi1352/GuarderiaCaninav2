@@ -1,8 +1,8 @@
 function doPost(e) {
     try {
-        // CONFIGURACIÓN INICIAL - CAMBIAR ESTOS VALORES
-        const SHEET_ID = '1S7VX7essRAMnReGMtcFExhM7HuL5e5jvsNpurhhaEPY'; // Reemplazar con tu ID de Google Sheet
-        const EMAIL_NOTIFICACION = 'ca1352@gmail.com'; // Reemplazar con tu email
+        // CONFIGURACIÓN INICIAL - YA CONFIGURADO CON TUS VALORES
+        const SHEET_ID = '1S7VX7essRAMnReGMtcFExhM7HuL5e5jvsNpurhhaEPY';
+        const EMAIL_NOTIFICACION = 'ca1352@gmail.com';
 
         // Verificar si hay datos del formulario
         if (!e || !e.postData || !e.postData.contents) {
@@ -198,7 +198,7 @@ function doPost(e) {
         // Ajustar ancho de columnas automáticamente
         sheet.autoResizeColumns(1, rowData.length);
 
-        // Enviar email de notificación (opcional)
+        // Enviar email de notificación
         const emailNotification = true; // Cambiar a false si no quieres emails
 
         if (emailNotification) {
@@ -231,39 +231,47 @@ Enviado el: ${data.fechaEnvio}
             }
         }
 
-        // Respuesta exitosa
+        // Respuesta exitosa (CORS manejado automáticamente por Google Apps Script)
         return ContentService
             .createTextOutput(JSON.stringify({
                 success: true,
-                message: 'Datos guardados correctamente'
+                message: 'Datos guardados correctamente',
+                timestamp: new Date().toISOString()
             }))
             .setMimeType(ContentService.MimeType.JSON);
 
     } catch (error) {
         console.error('Error:', error);
 
+        // Respuesta de error
         return ContentService
             .createTextOutput(JSON.stringify({
                 success: false,
-                message: 'Error al procesar los datos: ' + error.toString()
+                message: 'Error al procesar los datos: ' + error.toString(),
+                timestamp: new Date().toISOString()
             }))
             .setMimeType(ContentService.MimeType.JSON);
     }
 }
 
-// Función para configurar CORS (Cross-Origin Resource Sharing)
+// Función GET para verificar que el webhook funciona
 function doGet(e) {
     return ContentService
-        .createTextOutput('Webhook funcionando correctamente')
-        .setMimeType(ContentService.MimeType.TEXT);
+        .createTextOutput(JSON.stringify({
+            status: 'Webhook funcionando correctamente',
+            timestamp: new Date().toISOString(),
+            method: 'GET',
+            message: 'El sistema está listo para recibir datos del formulario'
+        }))
+        .setMimeType(ContentService.MimeType.JSON);
 }
 
 // FUNCIÓN DE PRUEBA - Ejecuta esta para verificar que todo funciona
 function pruebaConexion() {
     try {
-        // CONFIGURACIÓN INICIAL - CAMBIAR ESTOS VALORES
-        const SHEET_ID = 'TU_SHEET_ID_AQUI'; // Reemplazar con tu ID de Google Sheet
-        const EMAIL_NOTIFICACION = 'tu-email@gmail.com'; // Reemplazar con tu email
+        // CONFIGURACIÓN CON TUS VALORES REALES
+        const SHEET_ID = '1S7VX7essRAMnReGMtcFExhM7HuL5e5jvsNpurhhaEPY';
+        const EMAIL_NOTIFICACION = 'ca1352@gmail.com';
 
         console.log('🔍 Iniciando prueba de conexión...');
 
@@ -280,7 +288,7 @@ function pruebaConexion() {
             'Juan y María Prueba',
             'prueba@email.com',
             '555-1234',
-            '-- ESTO ES UNA PRUEBA --'
+            '-- ESTO ES UNA PRUEBA DEL SISTEMA --'
         ];
 
         sheet.appendRow(datoPrueba);
@@ -301,7 +309,11 @@ Esta es una prueba automatizada del sistema de formularios.
 
 El sistema está listo para recibir formularios reales.
 
+Sheet ID: ${SHEET_ID}
+Email: ${EMAIL_NOTIFICACION}
 Enviado: ${new Date().toLocaleString('es-CO')}
+
+¡Todo funciona correctamente! 🎉
         `
             });
             console.log('✅ Email de prueba enviado exitosamente');
@@ -311,11 +323,61 @@ Enviado: ${new Date().toLocaleString('es-CO')}
 
         console.log('🎉 ¡Prueba completada exitosamente!');
         console.log('📝 Revisa tu Google Sheet y tu email');
+        console.log('🚀 El sistema está listo para desplegar');
 
-        return 'Prueba completada exitosamente';
+        return 'Prueba completada exitosamente - Sistema funcionando';
 
     } catch (error) {
         console.error('❌ Error en la prueba:', error.toString());
+
+        // Mostrar información útil para debug
+        console.log('🔍 Información de debug:');
+        console.log('SHEET_ID:', '1S7VX7essRAMnReGMtcFExhM7HuL5e5jvsNpurhhaEPY');
+        console.log('EMAIL:', 'ca1352@gmail.com');
+
         throw new Error('Error en la prueba: ' + error.toString());
+    }
+}
+
+// Función adicional para limpiar datos de prueba (opcional)
+function limpiarDatosPrueba() {
+    try {
+        const SHEET_ID = '1S7VX7essRAMnReGMtcFExhM7HuL5e5jvsNpurhhaEPY';
+        const sheet = SpreadsheetApp.openById(SHEET_ID).getActiveSheet();
+
+        console.log('🧹 Limpiando datos de prueba...');
+
+        // Obtener todos los datos
+        const data = sheet.getDataRange().getValues();
+        const headers = data[0];
+
+        // Filtrar filas que NO contengan "PRUEBA"
+        const filteredData = data.filter((row, index) => {
+            if (index === 0) return true; // Mantener headers
+            return !row.some(cell => String(cell).includes('PRUEBA'));
+        });
+
+        // Limpiar hoja
+        sheet.clear();
+
+        // Volver a escribir datos sin pruebas
+        if (filteredData.length > 0) {
+            sheet.getRange(1, 1, filteredData.length, filteredData[0].length).setValues(filteredData);
+
+            // Re-formatear headers
+            const headerRange = sheet.getRange(1, 1, 1, headers.length);
+            headerRange.setBackground('#2c3e50');
+            headerRange.setFontColor('white');
+            headerRange.setFontWeight('bold');
+        }
+
+        console.log('✅ Datos de prueba eliminados');
+        console.log(`📊 Filas restantes: ${filteredData.length - 1}`);
+
+        return `Limpieza completada. Filas restantes: ${filteredData.length - 1}`;
+
+    } catch (error) {
+        console.error('❌ Error limpiando datos:', error.toString());
+        throw new Error('Error en limpieza: ' + error.toString());
     }
 }

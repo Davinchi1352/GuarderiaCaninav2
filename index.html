@@ -944,8 +944,38 @@
     </div>
 
     <script>
-        // IMPORTANTE: Debes reemplazar esta URL con la URL de tu Google Apps Script
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzNFBdvvyYMcMLq3jZW65JJBD6YwXwWevRQUVw7N6bkENtoWJTyOdjWKvWMLrWXom6q/exec';
+        // IMPORTANTE: Reemplaza con tu URL NUEVA de Google Apps Script
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyUuDQBPeBNfm6XMOHPadJ4w1jmJivwnXA8Ha_ZIjN64tZR8jobLBqZCCu-FTThjWfH/exec';
+
+        // Función para verificar si la URL funciona
+        async function verificarConexion() {
+            try {
+                console.log('🔍 Verificando conexión con:', GOOGLE_SCRIPT_URL);
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'GET'
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('✅ Conexión exitosa:', data);
+                    return true;
+                } else {
+                    console.error('❌ Error de conexión:', response.status, response.statusText);
+                    return false;
+                }
+            } catch (error) {
+                console.error('❌ Error verificando conexión:', error);
+                return false;
+            }
+        }
+
+        // Verificar conexión al cargar la página
+        window.addEventListener('load', async () => {
+            const conexionOk = await verificarConexion();
+            if (!conexionOk) {
+                console.warn('⚠️ Problema de conexión detectado. Revisa la configuración del Google Apps Script.');
+            }
+        });
 
         document.getElementById('evaluacionForm').addEventListener('submit', async function (e) {
             e.preventDefault();
@@ -1003,8 +1033,13 @@
                 data.fuentesClientes = fuentesClientes.join(', ');
                 data.redesSocialesUso = redesSocialesUso.join(', ');
 
-                // Agregar timestamp
+                // Agregar timestamp y debug info
                 data.fechaEnvio = new Date().toLocaleString('es-CO');
+                data.navegador = navigator.userAgent;
+                data.origen = window.location.origin;
+
+                console.log('📤 Enviando datos:', data);
+                console.log('🎯 URL destino:', GOOGLE_SCRIPT_URL);
 
                 // Enviar a Google Sheets
                 const response = await fetch(GOOGLE_SCRIPT_URL, {
@@ -1015,17 +1050,64 @@
                     body: JSON.stringify(data)
                 });
 
+                console.log('📥 Respuesta recibida:', response.status, response.statusText);
+
                 if (response.ok) {
-                    successMessage.style.display = 'block';
-                    this.reset(); // Limpiar formulario
-                    // Scroll al mensaje de éxito
-                    successMessage.scrollIntoView({ behavior: 'smooth' });
+                    const result = await response.json();
+                    console.log('✅ Resultado:', result);
+
+                    if (result.success) {
+                        successMessage.style.display = 'block';
+                        this.reset(); // Limpiar formulario
+                        successMessage.scrollIntoView({ behavior: 'smooth' });
+                    } else {
+                        throw new Error(result.message || 'Error desconocido del servidor');
+                    }
                 } else {
-                    throw new Error('Error en la respuesta del servidor');
+                    // Intentar leer el mensaje de error
+                    let errorText = 'Error del servidor';
+                    try {
+                        const errorData = await response.json();
+                        errorText = errorData.message || errorText;
+                    } catch (e) {
+                        errorText = `HTTP ${response.status}: ${response.statusText}`;
+                    }
+                    throw new Error(errorText);
                 }
 
             } catch (error) {
-                console.error('Error:', error);
+                console.error('❌ Error completo:', error);
+
+                // Mostrar mensaje de error específico
+                let errorMsg = 'Error desconocido';
+
+                if (error.message.includes('CORS')) {
+                    errorMsg = `Error de CORS: El Google Apps Script necesita ser reconfigurado. 
+                    <br><br><strong>Solución:</strong>
+                    <br>1. Ve a tu Google Apps Script
+                    <br>2. Crea una nueva implementación
+                    <br>3. Actualiza la URL en el código`;
+                } else if (error.message.includes('404') || error.message.includes('Failed to fetch')) {
+                    errorMsg = `URL de Google Apps Script no encontrada. 
+                    <br><br><strong>Verifica:</strong>
+                    <br>1. Que la URL esté completa y termine en /exec
+                    <br>2. Que el script esté desplegado correctamente
+                    <br>3. URL actual: <code>${GOOGLE_SCRIPT_URL}</code>`;
+                } else if (error.message.includes('Unauthorized')) {
+                    errorMsg = `Error de permisos en Google Apps Script.
+                    <br><br><strong>Solución:</strong>
+                    <br>1. En Google Apps Script, ve a Implementaciones
+                    <br>2. Edita la implementación 
+                    <br>3. Ejecutar como: "Yo"
+                    <br>4. Acceso: "Cualquier usuario"`;
+                } else {
+                    errorMsg = `Error: ${error.message}
+                    <br><br><strong>Detalles técnicos:</strong>
+                    <br>URL: ${GOOGLE_SCRIPT_URL}
+                    <br>Origen: ${window.location.origin}`;
+                }
+
+                errorMessage.innerHTML = `<strong>Error al enviar el formulario.</strong><br>${errorMsg}`;
                 errorMessage.style.display = 'block';
                 errorMessage.scrollIntoView({ behavior: 'smooth' });
             } finally {
